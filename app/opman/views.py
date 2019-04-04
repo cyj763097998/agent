@@ -5,6 +5,7 @@
 from . import opman
 from flask import render_template, url_for, redirect,flash,session,request,abort,Response,jsonify
 from .common import success,error
+from utils.mysql_host_tools import MysqlHostToools
 #from forms import LoginForm,PwdForm,TagForm,AuthForm,RoleForm,AdminForm
 #from app.models import Admin,Tag,Auth,Role
 #from functools import wraps
@@ -17,23 +18,13 @@ def create_masterhost():
     slave_dir = request.form.get('slave_dir')
     slave_port = request.form.get('slave_port')
     version = request.form.get('version')
-    print version
     if int(version) == 1:
         version = "5.6"
     else:
         version = "5.7"
     master_id = request.form.get('master_id')
     slave_id = request.form.get('slave_id')
-    print master_dir
-    print master_port
-    print slave_dir
-    print slave_port
-    print version
-    print master_id
-    print slave_id
-    print "---------------"
-    return error("实例存在")
-    """
+
     # 判断实例是否存在
     import os
     basedir = master_dir + "/" + master_port
@@ -42,12 +33,17 @@ def create_masterhost():
     if not os.path.exists(master_dir):
         os.system('mkdir -p %s' % (master_dir))
     # 判断端口是否占用
-    from opman.utils.network_tools import NetworkTools
+    from utils.network_tools import NetworkTools
     res = NetworkTools.check_process_open(master_port, 'mysqld')
     if res == True:
         return error('该实例端口已占用')
 
-    #message = "实例存在"
-    #response = {'code': 400, 'message': message}
-    #return error("实例存在")
-    """
+    mysqlhost = MysqlHostToools(master_dir, master_port)
+    id1 = mysqlhost.create_masterhost(master_port, master_dir, version)
+    # 此处通过调用api接口实现
+    #id2 = mysqlhost.queue_slavehost(master_id, slave_id, slave_dir, slave_port, version)
+    data = []
+    data.append(id1)
+    #data.append(id2)
+    return success('数据库实例正在部署，请等待...', data)
+

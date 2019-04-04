@@ -1,0 +1,45 @@
+Installing MySQL system tables...OK
+
+Filling help tables...OK
+
+To start mysqld at boot time you have to copy
+support-files/mysql.server to the right place for your system
+
+PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !
+To do so, start the server, then issue the following commands:
+
+  /usr/local/webserver/percona/bin/mysqladmin -u root password 'new-password'
+  /usr/local/webserver/percona/bin/mysqladmin -u root -h 119.10.56.123 password 'new-password'
+
+Alternatively you can run:
+
+  /usr/local/webserver/percona/bin/mysql_secure_installation
+
+which will also give you the option of removing the test
+databases and anonymous user created by default.  This is
+strongly recommended for production servers.
+
+See the manual for more instructions.
+
+You can start the MySQL daemon with:
+
+  cd . ; /usr/local/webserver/percona/bin/mysqld_safe &
+
+You can test the MySQL daemon with mysql-test-run.pl
+
+  cd mysql-test ; perl mysql-test-run.pl
+
+Please report any problems at
+ https://bugs.launchpad.net/percona-server/+filebug
+
+The latest information about Percona Server is available on the web at
+  http://www.percona.com/software/percona-server
+
+Support Percona by buying support at
+ http://www.percona.com/products/mysql-support
+
+WARNING: Default config file /etc/my.cnf exists on the system
+This file will be read by default by the MySQL server
+If you do not want to use this, either remove it, or use the
+--defaults-file argument to mysqld_safe when starting the server
+
