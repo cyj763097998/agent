@@ -26,6 +26,6 @@ try:
 except Exception,e:
     os.system('python /data0/scripts/devops/agent/app/console/main.py mysqlog "配置数据库主从失败 master:%s slave:%s"' % (master_port, slave_port))
     exit()
-url="http://%s:9999/api/create_mysql_slavehost/" %(slave_ip)
-res = httppost(url,{'version':'5.6','slave_port':slave_port,'master_ip':master_ip,'master_port':master_port,'basedir':slave_basedir,'slave_port':slave_port,'file':file,'pos':pos,'master_port':master_port})
+url="http://%s:9999/api/create_slavehost/" %(slave_ip)
+res = httppost(url,{'version':'5.6','slave_port':slave_port,'master_ip':master_ip,'master_port':master_port,'slave_basedir':slave_basedir,'slave_port':slave_port,'file':file,'pos':pos,'master_port':master_port})
 os.system('/usr/bin/python /data0/scripts/devops/agent/console/main.py mysqlog "配置数据库主信息成功,正在安装部署从数据库 master:%s slave:%s pos:%s" %s' %(master_port,slave_port,pos,master_port))

@@ -41,9 +41,21 @@ def create_masterhost():
     mysqlhost = MysqlHostToools(master_dir, master_port)
     id1 = mysqlhost.create_masterhost(master_port, master_dir, version)
     # 此处通过调用api接口实现
-    #id2 = mysqlhost.queue_slavehost(master_id, slave_id, slave_dir, slave_port, version)
+    id2 = mysqlhost.queue_slavehost(master_id, slave_id, slave_dir, slave_port, version)
     data = []
     data.append(id1)
-    #data.append(id2)
+    data.append(id2)
     return success('数据库实例正在部署，请等待...', data)
 
+@opman.route("/api/create_slavehost",methods=["POST"])
+def create_slavehost():
+    slave_basedir = request.form.get('slave_basedir')
+    slave_port = request.form.get('slave_port')
+    file = request.form.get('file')
+    pos = request.form.get('pos')
+    master_ip = request.form.get('master_ip')
+    master_port = request.form.get('master_port')
+    version = request.form.get('version')
+    print version
+    MysqlHostToools.create_slavehost(slave_port,slave_basedir,file, pos, master_port,master_ip,version)
+    return JsonResponse({'mess': 'Slave实例部署中'})
